@@ -1,0 +1,25 @@
+﻿@model IEnumerable<WebApplication.Models.Models.SmsConfiguration>
+<table id="myTable" class="table">
+    <tr>
+
+       <!-- <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+           -->
+    </tr>
+    @foreach (var item in ViewBag.Liste)
+    {
+        <tr>
+
+            <td>
+                <input class="form-check-input checkBoxClass" name="chkUser" type="checkbox" id="PoolNames" value="@item" onclick="EmailSec('@item')">
+            </td>
+            <td>
+                @item
+            </td>
+        </tr>
+    }
+
+</table>
+
+

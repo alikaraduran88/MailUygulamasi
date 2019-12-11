@@ -1,0 +1,98 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+       <meta name="viewport" content="width=device-width" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" />
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+    <title>Index</title>
+</head>
+<body>
+    <div>
+        <input type="checkbox" id="IsletmecilereGonder" name="IsletmecilereGonder" value="IsletmecilereGonder">
+        <label for="sIsletmecilereGonder">İşletmecilere gönder</label>
+    </div>
+    <div>
+        <input type="checkbox" id="Prefix" name="Prefix" value="Prefix">
+        <label for="Prefix"> A / B / C bölgelerine gönder</label>
+    </div>
+    <div>
+        <input type="checkbox" id="HavuzName" name="HavuzName" value="HavuzName">
+        <label for="HavuzName">Havuz adına gönder</label>
+    </div>
+    <button class="btn btn-success" id="btn">İslem Yap</button>
+</body>
+</html>
+<script>
+    $("#btn").click(function () {
+        var favorite = [];
+        
+        if (Prefix.select = true) {
+            alert("aşama 1");
+            if (HavuzName.checked=true) {
+                $.get("/Mail/HomePage", { chkData: favorite }), function res() {
+                    alert("tek bir seçenek seçiniz...");
+                }
+            }
+            if (IsletmecilereGonder.select = true) {
+                $.get("/Mail/HomePage", { chkData: favorite }), function res() {
+                    alert("tek bir seçenek seçiniz...");
+                }
+            }
+            alert("aşama 2");
+            $.get("/Mail/SendSMS", { chkData: favorite }), function res() {
+            }
+        }
+        // //////////////////////////////////////////
+        else if (HavuzName.checked) {
+
+            if (Prefix.checked) {
+                $.get("/Mail/HomePage", { chkData: favorite }), function res() {
+                    alert("tek bir seçenek seçiniz...");
+                }
+            }
+            if (IsletmecilereGonder.checked) {
+                $.get("/Mail/HomePage", { chkData: favorite }), function res() {
+                    alert("tek bir seçenek seçiniz...");
+                }
+            }
+            $.each($("input[name='chkType']:checked"), function () {
+                favorite.push($(this).val());
+            });
+            $.get("/Mail/SendSMS", { chkData: favorite }), function res() {
+
+            }
+
+        }
+        // ////////////////////////////
+        else if (IsletmecilereGonder.checked) {
+
+            if (Prefix.checked) {
+                $.get("/Mail/HomePage", { chkData: favorite }), function res() {
+                    alert("tek bir seçenek seçiniz...");
+                }
+            }
+            if (HavuzName.checked) {
+                $.get("/Mail/HomePage", { chkData: favorite }), function res() {
+                    alert("tek bir seçenek seçiniz...");
+                }
+            }
+            $.each($("input[name='chkType']:checked"), function () {
+                favorite.push($(this).val());
+            });
+            $.get("/Mail/SendSMS", { chkData: favorite }), function res() {
+
+            }
+
+        }
+        console.log(favorite);
+    });
+</script>

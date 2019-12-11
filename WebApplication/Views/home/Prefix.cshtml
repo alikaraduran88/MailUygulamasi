@@ -1,0 +1,67 @@
+﻿
+
+@{
+    ViewBag.Title = "Prefix";
+    Layout = "~/Views/Layout/DefaultLayout.cshtml";
+}
+            <div class="row">
+                <div class="col-lg-6 mb-5">
+                    <div class="card shadow mb-5">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Mail Gönderme işlemi</h6>
+                        </div>
+                        <div class="card-body">
+                            <form>
+                                <div class="form-check form-check-inline">
+                                    <h4>Alıcı : </h4>
+                                    <input class="form-check-input" name="chkType" type="checkbox" id="inlineCheckbox1" value="A">
+                                    <label class="form-check-label" for="inlineCheckbox1">A</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" name="chkType" type="checkbox" id="inlineCheckbox1" value="B">
+                                    <label class="form-check-label" for="inlineCheckbox2">B</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" name="chkType" type="checkbox" id="inlineCheckbox1" value="C">
+                                    <label class="form-check-label" for="inlineCheckbox2">C</label>
+                                </div>
+                            </form>
+
+
+                            <div class="card-body">
+                                <div>
+                                    <div class="form-group">
+                                        <label for="exampleFormControlTextarea1">Mesaj Konusu:</label>
+                                        <textarea class="form-control" id="MesajKonusu" rows="1"></textarea>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="form-group">
+                                        <label for="exampleFormControlTextarea1">Gönderilecek Mesaj:</label>
+                                        <textarea class="form-control" id="GonderilecekMesaj" rows="3"></textarea>
+                                    </div>
+                                </div>
+                                <div>
+                                    <button class="btn btn-success" id="btn">Mail Gönder</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script>
+                $("#btn").click(function () {
+                    var searchIDs = $("input:checkbox:checked").map(function () {
+                        return $(this).val();
+                    }).get();
+                    $.ajax({
+                        method: "POST",
+                        url: "/home/PrefixSMSEkrani",
+                        data: {
+                            chkData: searchIDs, mesaj: $("#GonderilecekMesaj").val(), MesajKonusu: $("#MesajKonusu").val()
+                        }
+                    }).done(function (msg) {
+
+                    });
+                });
+            </script>

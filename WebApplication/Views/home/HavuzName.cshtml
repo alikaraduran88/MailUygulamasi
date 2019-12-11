@@ -1,0 +1,155 @@
+﻿@model IEnumerable<WebApplication.Models.Models.SmsConfiguration>
+
+@{
+    ViewBag.Title = "HavuzName";
+    Layout = "~/Views/Layout/DefaultLayout.cshtml";
+}
+
+<div class="row">
+    <div class="col-lg-6 mb-5">
+        <div class="card shadow mb-5">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Havuz Seçme Ekranı</h6>
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.HavuzAdi)
+                        </th>
+                    </tr>
+                    @foreach (var item in ViewBag.Liste)
+                    {
+                        <tr>
+                            <td>
+                                <input class="form-check-input" name="chkType" id="chkType" type="checkbox" onclick="isletmeciMailGetir('@item')" value="@item">
+                            </td>
+                            <td>
+                                @item
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-6 mb-5">
+        <div class="card shadow mb-5">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">GÖNDERİLMESİNİ İSTEDİĞİNİZ KİŞİLERİ SEÇİNİZ</h6>
+            </div>
+            <div>
+                Hepsini Seç <input class="checkbox" name="HepsiniSec" type="checkbox" id="HepsiniSec">
+            </div>
+            <div class="card-body">    
+                    <div id="myTable">
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-lg-6 mb-5">
+        <div class="card shadow mb-5">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Mesaj İçeriği Ekranı</h6>
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <tr>
+                        <th>
+                            <div class="form-group">
+                                <label for="exampleFormControlTextarea1">Mesaj Konusu:</label>
+                                <textarea class="form-control" id="MesajKonusu" rows="1"></textarea>
+                            </div>
+                        </th>
+
+                    </tr>
+
+                    <tr>
+                        <th>
+                            <div class="form-group">
+                                <label for="exampleFormControlTextarea1">Gönderilecek Mesaj:</label>
+                                <textarea class="form-control" id="GonderilecekMesaj" rows="3"></textarea>
+                            </div>
+                        </th>
+
+                    </tr>
+                    <tr>
+
+                        <th>
+                            <button class="btn btn-success" id="btn">Mail Gönder</button>
+                        </th>
+                    </tr>
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script>
+        function isletmeciMailGetir(veri) {
+            $('#myTable').html('');
+            var _value;
+            var searchIDs = $("input:checkbox:checked").map(function () {
+                return $(this).val();
+            }).get(); // <----
+            $.ajax({
+                method: "POST",
+                url: "/home/GetValuesEmailsByHavuzName",
+                data: { chkData: searchIDs }
+            }).done(function (msg) {
+                $('#myTable').append(msg);
+            });
+        }
+    </script>
+
+<!--
+    <script>
+        function EmailSec(veri) {
+            var searchIDs = $("input:checkbox:checked").map(function () {
+                return $(this).val();
+            }).get(); // <----
+            $.ajax({
+                method: "POST",
+                url: "/home/AddMail",
+                data: { chkData: searchIDs, email: $("#PoolNames").val() }
+
+            }).done(function (msg) {
+                $('#myTable').append(msg);
+            });
+        }
+    </script>
+    -->
+
+    <script>
+        $("#btn").click(function () {
+            var favorite = [];
+
+            $.each($("input[name='chkUser']:checked"), function () {
+                favorite.push($(this).val());
+            });
+
+            $.post("/home/HavuzEkrani", { chkData: favorite, mesaj: $("#GonderilecekMesaj").val(), MesajKonusu: $("#MesajKonusu").val() })
+
+            console.log(favorite);
+        });
+    </script>
+
+<script>
+        $('input[id="HepsiniSec"]').click(function () {
+            if ($(this).prop("checked") == true) {
+
+                $(".checkBoxClass").prop('checked', true);
+            }
+            else if ($(this).prop("checked") == false) {
+                $(".checkBoxClass").prop('checked', false);
+            }
+        });
+</script>

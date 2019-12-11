@@ -1,0 +1,99 @@
+﻿@model IEnumerable<WebApplication.Models.Models.SmsConfiguration>
+
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" />
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+
+    <table class="table">
+        <tr>
+            <th>
+
+            </th>
+            <th>
+                Email Adresi
+            </th>
+            <th>
+
+            </th>
+            <th>
+                İşletmeci Adı
+            </th>
+            <th>
+
+            </th>
+            <th>
+                Havuz Adı
+            </th>
+            <th>
+
+            </th>
+            <th>
+                Bölge
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <input class="form-check-input" type="checkbox" name="chkType" value="@item.Email" id="defaultCheck1">
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td></td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td></td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HavuzAdi)
+                </td>
+                <td></td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Prefix)
+                </td>
+
+            </tr>
+        }
+
+    </table>
+
+    <button class="btn btn-success" id="btn">Mail Gönder</button>
+</body>
+</html>
+<script>
+    $("#btn").click(function () {
+        var favorite = [];
+
+  
+        $.each($("input[name='chkType']:checked"), function () {
+            favorite.push($(this).val());
+        });
+
+        $.get("/Mail/SendSMS", { chkData: favorite }), function res() {
+
+        }
+
+        $.post("/Mail/SmsGonder", { chkData: favorite }), function res() {
+
+        }
+        console.log(favorite);
+    });
+</script>
+
+

@@ -1,0 +1,131 @@
+﻿@model IEnumerable<WebApplication.Models.Models.SmsConfiguration>
+
+@{
+    ViewBag.Title = "AllCustomer";
+    Layout = "~/Views/Layout/DefaultLayout.cshtml";
+}
+
+
+<div class="row">
+    <div class="col-lg-6 mb-5">
+        <div class="card shadow mb-5">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">GÖNDERİLMESİNİ İSTEDİĞİNİZ KİŞİLERİ SEÇİNİZ</h6>
+            </div>
+           <form>
+            <div class="card-body">
+                    <div>
+                        Hepsini Seç <input class="checkbox" name="HepsiniSec" type="checkbox" id="HepsiniSec">
+                    </div>
+                <table class="table">
+                    <tr>
+                        <th>
+                            
+                        </th> 
+                    </tr>
+                    <tr>
+                        <th>
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Email)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.HavuzAdi)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Prefix)
+                        </th>
+
+                    </tr>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+
+                            <td>
+                                <input class="form-check-input checkBoxClass" name="chkType" type="checkbox" id="inlineCheckbox1" value="@item.Email" onclick="EmailSec('@item.Email')">
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Email)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.HavuzAdi)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Prefix)
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-lg-6 mb-5">
+        <div class="card shadow mb-5">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">GÖNDERİLMESİNİ İSTEDİĞİNİZ KİŞİLERİ SEÇİNİZ</h6>
+            </div>
+            <div class="card-body">
+                <div>
+                        <div class="form-group">
+                             <label for="exampleFormControlTextarea1">Mesaj Konusu:</label>
+                             <textarea class="form-control" id="MesajKonusu" rows="1"></textarea>
+                        </div>
+                 </div>
+                 <div>
+                            <div class="form-group">
+                                <label for="exampleFormControlTextarea1">Gönderilecek Mesaj:</label>
+                                <textarea class="form-control" id="GonderilecekMesaj" rows="3"></textarea>
+                            </div>
+                  </div>
+                        <div>
+                            <button class="btn btn-success" id="btn">Mail Gönder</button>
+                        </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+   
+        $('input[id="HepsiniSec"]').click(function () {
+            if ($(this).prop("checked") == true) {
+
+                $(".checkBoxClass").prop('checked', true);
+            }
+            else if ($(this).prop("checked") == false) {
+                $(".checkBoxClass").prop('checked', false);
+            }
+        }); 
+    
+</script>
+    
+<script>
+    $("#btn").click(function () {
+        var searchIDs = $("input:checkbox:checked").map(function () {
+            return $(this).val();
+        }).get();
+        $.ajax({
+            method: "POST",
+            url: "/home/SMSEkrani",
+            data: {
+                chkData:searchIDs, mesaj: $("#GonderilecekMesaj").val(), MesajKonusu: $("#MesajKonusu").val()
+            }
+        }).done(function (msg) {
+          
+        });
+    });
+</script>
