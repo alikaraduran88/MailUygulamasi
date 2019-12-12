@@ -1,0 +1,50 @@
+﻿@model IEnumerable<WebApplication.Models.Models.SmsConfiguration>
+
+<table id="myTable" class="table">
+  
+        <tr>
+            <th>
+
+            </th>
+        </tr>
+                    <tr>
+                        <th>
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Email)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.HavuzAdi)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Prefix)
+                        </th>
+
+                    </tr>
+                    @foreach (var item in ViewBag.Liste)
+                    {
+                        <tr>
+
+                            <td>
+                                <input class="form-check-input checkBoxClass" name="chkType" type="checkbox" id="inlineCheckbox1" value="@item.Email" onclick="EmailSec('@item.Email')">
+                            </td>
+
+                            <td>
+                                @item.Email
+                            </td>
+                            <td>
+                                @item.Name
+                            </td>
+                            <td>
+                                @item.HavuzAdi
+                            </td>
+                            <td>
+                                @item.Prefix
+                            </td>
+                        </tr>
+                    }
+    
+</table>

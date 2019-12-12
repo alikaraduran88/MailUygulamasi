@@ -207,6 +207,7 @@
     <Content Include="Views\home\Prefix.cshtml" />
     <Content Include="Views\home\HavuzName.cshtml" />
     <Content Include="Views\home\GetValuesEmailsByHavuzName.cshtml" />
+    <Content Include="Views\home\GetAllCustomer.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

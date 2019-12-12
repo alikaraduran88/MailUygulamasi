@@ -49,6 +49,9 @@ namespace WebApplication.Controllers
         public ActionResult AllCustomer()
         {
             List<SmsConfiguration> SendMail = MailManager.CreateMailManager();
+            List<SmsConfiguration> SendMail1 = MailManager.AllCustomerManager();
+            var list = SendMail1.ToList();
+            ViewBag.Liste = list;
             return View(SendMail);
             
         }
@@ -117,7 +120,15 @@ namespace WebApplication.Controllers
 
             return View();
         }
-       
+
+        [HttpPost]
+        public ActionResult GetAllCustomer(int pageNumber)
+        {
+            List<SmsConfiguration> SendMail = MailManager.getCustomerWithPageNumberManager(pageNumber);
+            var list = SendMail.ToList();
+            ViewBag.Liste = list;
+            return View();
+        }
         [HttpPost]
         public ActionResult AddMail(string chkData, string email)
         {

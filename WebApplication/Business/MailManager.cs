@@ -23,6 +23,21 @@ namespace WebApplication.Business
             }
         }
 
+        public static List<SmsConfiguration> AllCustomerManager()
+        {
+            using (DBContext db = new DBContext())
+            {
+                return db.SmsConfigurations.Take(25).ToList();
+            }
+        }
+
+        public static List<SmsConfiguration> getCustomerWithPageNumberManager(int pageNumber)
+        {
+            using (DBContext db = new DBContext())
+            {
+                return db.SmsConfigurations.Take(5).ToList();
+            }
+        }
 
         public static List<SmsConfiguration> GetPrefix(List<string> chkData)
         {
