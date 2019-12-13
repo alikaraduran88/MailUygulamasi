@@ -94,32 +94,32 @@ namespace WebApplication.Controllers
         [HttpPost]
         public ActionResult PrefixSMSEkrani(List<string> chkData, string mesaj, string MesajKonusu)
         {
-            List<PrefixEmailList> smsList1 = new List<PrefixEmailList>();
             List<SmsConfiguration> smsList = new List<SmsConfiguration>();
             using (DBContext db = new DBContext())
             {
                 foreach (var item in chkData)
                 {
-                  
                     var list1 = db.SmsConfigurations.Where(q => q.Prefix == item).ToList();
                     smsList.AddRange(list1);
-
                 }
                 
             }
             SendMail sendMAil = new SendMail();
-          // sendMAil.SendMails(list, mesaj,MesajKonusu);
+           //sendMAil.SendMails(smsList, mesaj,MesajKonusu);
             return View();
         }
+
+
         [HttpPost]
         public ActionResult GetValuesEmailsByHavuzName(List<string> chkData)
         {
             List<SmsConfiguration> SendMail = MailManager.GetHavuzName1(chkData);
             var list = SendMail.Select(m => new { m.Email }).Distinct().ToList();
             ViewBag.Liste = list.Select(m => m.Email).Distinct().ToList();
-
             return View();
         }
+        
+       
 
         [HttpPost]
         public ActionResult GetAllCustomer(int pageNumber)
@@ -129,10 +129,12 @@ namespace WebApplication.Controllers
             ViewBag.Liste = list;
             return View();
         }
+
+
         [HttpPost]
         public ActionResult AddMail(string chkData, string email)
         {
-             _GetHavuzName.Add(new GetHavuzName() { Email = email });
+            _GetHavuzName.Add(new GetHavuzName() { Email = email });
             return View();
         }
 
@@ -140,7 +142,6 @@ namespace WebApplication.Controllers
         [HttpPost]
         public ActionResult AddMailList(List<string> chkData)
         {
-
             ChooiceChechBox.AddRange(chkData);
             return View();
         }

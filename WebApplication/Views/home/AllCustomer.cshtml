@@ -5,6 +5,7 @@
     Layout = "~/Views/Layout/DefaultLayout.cshtml";
 }
 
+<input type="hidden" id="activePage" />
 
 <div class="row">
     <div class="col-lg-6 mb-5">
@@ -22,29 +23,24 @@
                 
             </div>
 
-
-
-               <!-- buradan -->
                <table cellpadding="0" cellspacing="0">
                    <tr>
                        <nav aria-label="Page navigation example">
                            <ul class="pagination">
-                               <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
-                               <li class="page-item active"><a class="page-link" name="Page" onclick="Page(1)" href="#">1</a></li>
+                               <li class="page-item"><a class="page-link" name="PreviousPage" onclick="PreviousPage()" href="#">Previous</a></li>
+                               <li class="page-item active"><a class="page-link" name="Page" value="1" onclick="Page('1')" href="#">1</a></li>
+                               
                                @for (int i = 1; i <=Model.Count()/25; i++)
                                {
-                                   <li class="page-item"><a class="page-link" name="Page" onclick="Page('@(i+1)')" href="#"> @(i+1)</a></li>
+                                   <li class="page-item"><a class="page-link" name="Page" value="i+1" onclick="Page('@(i+1)')" href="#"> @(i+1)</a></li>
                                }
-                               <li class="page-item"><a class="page-link" name="Next" href="#">Next</a></li>
+                               <li class="page-item"><a class="page-link" name="NextPage" onclick="NextPage()" href="#">Next</a></li>
                            </ul>
                        </nav>
                    </tr>
                </table>
                <input type="hidden" id="hfCurrentPageIndex" name="currentPageIndex" />
-               <!-- buraya  -->
-
-
-
+              
             </form>
         </div>
     </div>
@@ -79,10 +75,41 @@
 </div>
 
 
+
 <script>
+
+    function PreviousPage() {
+        var page = $("#activePage").val();
+        Page(page - 1);
+    }
+
+
+    function NextPage() {
+        var page = $("#activePage").val();
+        Page(page + 1);
+    }
+
+  
     function Page(veri) {
-        alert(veri);
+
+        $("#activePage").val(veri);
         $('#myTable').html('');
+        var $listItems = $('.pagination li');
+        if ($listItems == 1) {
+            $listItems.click(function () {
+                $listItems.removeClass('active');
+                $(this).addClass('active');
+                var activeLink = $(this);
+            });
+           $('.pagination').find('name:PreviousPage').addClass('active');
+        } else {
+            $listItems.click(function () {
+                $listItems.removeClass('active');
+                $(this).addClass('active');
+                var activeLink = $(this);
+            });
+        }
+        
         $.ajax({
             method: "POST",
             url: "/home/GetAllCustomer",
@@ -94,7 +121,6 @@
 </script>
 
 <script>
-   
         $('input[id="HepsiniSec"]').click(function () {
             if ($(this).prop("checked") == true) {
 
@@ -104,7 +130,6 @@
                 $(".checkBoxClass").prop('checked', false);
             }
         }); 
-    
 </script>
     
 <script>
@@ -122,4 +147,8 @@
           
         });
     });
+
+    $(document).ready(function () {
+        Page('1')
+    })
 </script>

@@ -35,7 +35,8 @@ namespace WebApplication.Business
         {
             using (DBContext db = new DBContext())
             {
-                return db.SmsConfigurations.Take(5).ToList();
+                var list =  db.SmsConfigurations.Take(25*pageNumber).ToList();
+                return list.Skip(25 * (pageNumber - 1)).ToList();
             }
         }
 
